@@ -7,25 +7,29 @@ const myCell: Cell = {
   isFlagged: false,
 };
 
-const generateCoordinates = (): number[] => {
-  const row = Math.floor(Math.random() * 10);
-  const column = Math.floor(Math.random() * 10);
+const generateCoordinates = (rows: number, columns: number): number[] => {
+  const row = Math.floor(Math.random() * rows);
+  const column = Math.floor(Math.random() * columns);
   return [row, column];
 };
 
-const generateEmptyBoard = (): BoardType => {
-  const board = Array<Row>(10);
+const generateEmptyBoard = (rows: number, columns: number): BoardType => {
+  const board = Array<Row>(rows);
   for (let i = 0; i < board.length; i++) {
-    board[i] = Array.from({ length: 10 }, () => ({ ...myCell }));
+    board[i] = Array.from({ length: columns }, () => ({ ...myCell }));
   }
   return board;
 };
 
-const insertMines = (mines: number): BoardType => {
-  const board = generateEmptyBoard();
+const insertMines = (
+  mines: number,
+  rows: number,
+  columns: number,
+): BoardType => {
+  const board = generateEmptyBoard(rows, columns);
   const mineCoordinates = new Map();
   while (mines > 0) {
-    const [first, second] = generateCoordinates();
+    const [first, second] = generateCoordinates(rows, columns);
     if (
       mineCoordinates.has(first) &&
       mineCoordinates.get(first).includes(second)
@@ -57,8 +61,16 @@ const countNearbyMines = (board: BoardType, x: number, y: number) => {
   return count;
 };
 
-export const insertNumbers = (mines: number) => {
-  const boardWithMines = insertMines(mines);
+export const insertNumbers = ({
+  columns,
+  rows,
+  mines,
+}: {
+  columns: number;
+  rows: number;
+  mines: number;
+}) => {
+  const boardWithMines = insertMines(mines, rows, columns);
   for (let i = 0; i < boardWithMines.length; i++) {
     for (let j = 0; j < boardWithMines[0].length; j++) {
       boardWithMines[i][j].minesNearby = countNearbyMines(boardWithMines, i, j);

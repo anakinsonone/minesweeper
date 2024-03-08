@@ -3,6 +3,7 @@ export type Cell = {
   minesNearby: number;
   isHidden: boolean;
   isFlagged: boolean;
+  squareSize: number;
 };
 export type Row = Cell[];
 export type BoardType = Row[];

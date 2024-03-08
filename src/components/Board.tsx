@@ -2,18 +2,35 @@ import "../App.css";
 import { BoardType, Game, SetState } from "./utils/types";
 import { revealAdjacentCells } from "./utils/utils";
 
+enum Colors {
+  "c1" = "#1976d2",
+  "c2" = "#388e3c",
+  "c3" = "#d32f2f",
+  "c4" = "#7b1fa2",
+  "c5" = "#fe8f01",
+  "c6" = "#1e3a8a",
+  "c7" = "#78350f",
+  "c8" = "#831843",
+}
+
 const Board = ({
   board,
   setBoard,
   game,
   setGame,
   setShowScore,
+  squareSize,
+  gameMode,
+  setFlags,
 }: {
   board: BoardType;
   setBoard: SetState<BoardType>;
   game: Game;
   setGame: SetState<Game>;
   setShowScore: SetState<boolean>;
+  squareSize: number;
+  gameMode: string;
+  setFlags: SetState<number>;
 }) => {
   const revealMines = () => {
     let newBoard = structuredClone(board);
@@ -53,36 +70,75 @@ const Board = ({
     e.preventDefault();
     if (game !== "on") return;
     const newBoard = structuredClone(board);
+    if (newBoard[row][column].isFlagged) setFlags((prevFlags) => prevFlags + 1);
+    else setFlags((prevFlags) => prevFlags - 1);
     newBoard[row][column].isFlagged = !board[row][column].isFlagged;
     setBoard(newBoard);
   };
 
   return (
     <>
-      <></>
-      <table>
+      <table cellPadding={0} cellSpacing={0}>
         <tbody>
           {board.map((row, rowIndex) => (
-            <tr key={rowIndex}>
+            <tr key={rowIndex} style={{ height: squareSize }}>
               {row.map((cell, cellIndex) =>
                 cell.isHidden ? (
                   <td
-                    style={{ backgroundColor: "gray" }}
+                    style={{
+                      backgroundColor:
+                        (rowIndex + cellIndex) % 2 === 0
+                          ? "#aad751"
+                          : "#a2d149",
+                      width: squareSize,
+                      height: squareSize,
+                    }}
                     key={`${rowIndex}${cellIndex}`}
                     onClick={() => handleLeftClick(rowIndex, cellIndex)}
                     onContextMenu={(e) =>
                       handleRightClick(e, rowIndex, cellIndex)
                     }
                   >
-                    {cell.isFlagged ? " 🚩 " : null}
+                    {cell.isFlagged ? (
+                      <img
+                        src="flag.png"
+                        width={squareSize - 10}
+                        height={squareSize - 10}
+                        alt="flag"
+                      />
+                    ) : null}
                   </td>
                 ) : (
-                  <td key={`${rowIndex}${cellIndex}`}>
-                    {cell.isMine
-                      ? " 💣 "
-                      : cell.minesNearby
-                        ? `${cell.minesNearby}`
-                        : null}
+                  <td
+                    key={`${rowIndex}${cellIndex}`}
+                    onContextMenu={(e) => e.preventDefault()}
+                    style={{
+                      backgroundColor:
+                        (rowIndex + cellIndex) % 2 === 0
+                          ? "#e5c29f"
+                          : "#d7b899",
+                      width: squareSize,
+                      height: squareSize,
+                      color: Colors["c" + `${cell.minesNearby}`],
+                      fontSize:
+                        gameMode === "easy"
+                          ? 30
+                          : gameMode === "medium"
+                            ? 22
+                            : 18,
+                      transition: "background-color 1.5s fade-in",
+                    }}
+                  >
+                    {cell.isMine ? (
+                      <img
+                        src="mine.png"
+                        width={squareSize - 10}
+                        height={squareSize - 10}
+                        alt="mine"
+                      />
+                    ) : cell.minesNearby ? (
+                      cell.minesNearby
+                    ) : null}
                   </td>
                 ),
               )}

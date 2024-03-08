@@ -2,14 +2,50 @@ import { useMemo, useState, useEffect } from "react";
 import "./App.css";
 import Board from "./components/Board";
 import ScoreModal from "./components/ScoreModal";
+import Header from "./components/Header";
 import { insertNumbers } from "./components/utils/utils";
-import { Game, GameMode } from "./components/utils/types";
+import { Game } from "./components/utils/types";
+
+enum GameMode {
+  Easy = "easy",
+  Medium = "medium",
+  Hard = "hard",
+}
+
+const gameSettings = {
+  easy: {
+    columns: 10,
+    rows: 8,
+    squareSize: 45,
+    mines: 10,
+  },
+  medium: {
+    columns: 18,
+    rows: 14,
+    squareSize: 30,
+    mines: 40,
+  },
+  hard: {
+    columns: 24,
+    rows: 20,
+    squareSize: 25,
+    mines: 99,
+  },
+};
+enum GameState {
+  On = "on",
+  Lose = "lose",
+  Win = "win",
+}
 
 function App() {
-  const [mines, setMines] = useState<number>(15);
-  const [board, setBoard] = useState(insertNumbers(mines));
-  const [game, setGame] = useState<Game>("on");
-  const [gameMode, setGameMode] = useState<GameMode>("medium");
+  const [game, setGame] = useState<Game>(GameState.On);
+  const [gameMode, setGameMode] = useState(GameMode.Medium);
+  const [board, setBoard] = useState(() =>
+    insertNumbers(gameSettings[gameMode]),
+  );
+  const [mines, setMines] = useState(gameSettings[GameMode.Medium].mines);
+  const [flags, setFlags] = useState(gameSettings[GameMode.Medium].mines);
   const [showScore, setShowScore] = useState(false);
 
   const hiddenCells = useMemo(() => {
@@ -21,7 +57,6 @@ function App() {
     }
     return count;
   }, [board]);
-  console.log(hiddenCells);
 
   useEffect(() => {
     if (hiddenCells === mines) {
@@ -30,34 +65,38 @@ function App() {
     }
   }, [hiddenCells, mines]);
 
-  useEffect(() => {
-    if (gameMode === "easy") {
-      setMines(10);
-      resetGame(10);
-    } else if (gameMode === "medium") {
-      setMines(15);
-      resetGame(15);
-    } else {
-      setMines(25);
-      resetGame(25);
-    }
-  }, [gameMode]);
-
-  const resetGame = (mines: number) => {
-    const newBoard = insertNumbers(mines);
+  const resetGame = () => {
+    const newBoard = insertNumbers(gameSettings[gameMode]);
+    setFlags(gameSettings[gameMode].mines);
     setBoard(newBoard);
     setShowScore(false);
     setGame("on");
   };
 
+  const changeGameMode = (gameMode: string) => {
+    setGameMode(GameState.On);
+    setGameMode(GameMode[gameMode] as any);
+    setBoard(() => insertNumbers(gameSettings[gameMode.toLowerCase()]));
+    setMines(gameSettings[gameMode.toLowerCase()].mines);
+    setFlags(gameSettings[gameMode.toLowerCase()].mines);
+  };
+
   return (
     <>
+      <Header
+        flags={flags}
+        gameMode={gameMode}
+        changeGameMode={changeGameMode}
+      />
       <Board
         board={board}
         setBoard={setBoard}
         game={game}
         setGame={setGame}
         setShowScore={setShowScore}
+        squareSize={gameSettings[gameMode].squareSize}
+        gameMode={gameMode}
+        setFlags={setFlags}
       />
       {game !== "on" && (
         <ScoreModal

@@ -13,7 +13,12 @@ function ScoreModal({
   resetGame: (mines: number) => void;
 }) {
   return (
-    <Modal show={show} backdrop="static" keyboard={false}>
+    <Modal
+      style={{ position: "absolute", right: 0 }}
+      show={show}
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Body>{game === "win" ? "You Won" : "You Lost"}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => resetGame(mines)}>
