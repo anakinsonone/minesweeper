@@ -21,7 +21,7 @@ const Header = ({
       </select>
       <div className="flags">
         <img src="flag.png" alt="flag" width={25} height={25} />
-        <p>{flags}</p>
+        <div>{flags}</div>
       </div>
     </div>
   );
