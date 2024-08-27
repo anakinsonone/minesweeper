@@ -5,6 +5,7 @@ import ScoreModal from "./components/ScoreModal";
 import Header from "./components/Header";
 import { insertNumbers } from "./components/utils/utils";
 import { Game } from "./components/utils/types";
+import { Button } from "react-bootstrap";
 
 enum GameMode {
   Easy = "easy",
@@ -104,7 +105,13 @@ function App() {
           game={game}
           show={showScore}
           resetGame={resetGame}
+          setShow={(val: boolean) => setShowScore(val)}
         />
+      )}
+      {game !== "on" && !showScore && (
+        <Button variant="primary" onClick={resetGame}>
+          Try Again
+        </Button>
       )}
     </>
   );

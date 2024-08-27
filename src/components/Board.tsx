@@ -84,7 +84,7 @@ const Board = ({
             <tr key={rowIndex} style={{ height: squareSize }}>
               {row.map((cell, cellIndex) =>
                 cell.isHidden ? (
-                  <td>
+                  <td key={`${rowIndex}${cellIndex}`}>
                     <div
                       style={{
                         backgroundColor:
@@ -94,26 +94,26 @@ const Board = ({
                         width: squareSize,
                         height: squareSize,
                       }}
-                      key={`${rowIndex}${cellIndex}`}
                       onClick={() => handleLeftClick(rowIndex, cellIndex)}
                       onContextMenu={(e) =>
                         handleRightClick(e, rowIndex, cellIndex)
                       }
                     >
                       {cell.isFlagged ? (
-                        <img
-                          src="flag.png"
-                          width={squareSize - 10}
-                          height={squareSize - 10}
-                          alt="flag"
-                        />
+                        <div className="image-container">
+                          <img
+                            src="flag.png"
+                            width={squareSize - 10}
+                            height={squareSize - 10}
+                            alt="flag"
+                          />
+                        </div>
                       ) : null}
                     </div>
                   </td>
                 ) : (
-                  <td>
+                  <td key={`${rowIndex}${cellIndex}`}>
                     <div
-                      key={`${rowIndex}${cellIndex}`}
                       onContextMenu={(e) => e.preventDefault()}
                       style={{
                         backgroundColor:
@@ -130,17 +130,22 @@ const Board = ({
                               ? 22
                               : 18,
                         transition: "background-color 1.5s fade-in",
+                        fontWeight: "bold",
                       }}
                     >
                       {cell.isMine ? (
-                        <img
-                          src="mine.png"
-                          width={squareSize - 10}
-                          height={squareSize - 10}
-                          alt="mine"
-                        />
+                        <div className="image-container mine-container">
+                          <img
+                            src="mine.png"
+                            width={squareSize - 10}
+                            height={squareSize - 10}
+                            alt="mine"
+                          />
+                        </div>
                       ) : cell.minesNearby ? (
-                        <>{cell.minesNearby}</>
+                        <div className="image-container">
+                          {cell.minesNearby}
+                        </div>
                       ) : (
                         <></>
                       )}
