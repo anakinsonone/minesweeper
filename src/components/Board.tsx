@@ -84,61 +84,67 @@ const Board = ({
             <tr key={rowIndex} style={{ height: squareSize }}>
               {row.map((cell, cellIndex) =>
                 cell.isHidden ? (
-                  <td
-                    style={{
-                      backgroundColor:
-                        (rowIndex + cellIndex) % 2 === 0
-                          ? "#aad751"
-                          : "#a2d149",
-                      width: squareSize,
-                      height: squareSize,
-                    }}
-                    key={`${rowIndex}${cellIndex}`}
-                    onClick={() => handleLeftClick(rowIndex, cellIndex)}
-                    onContextMenu={(e) =>
-                      handleRightClick(e, rowIndex, cellIndex)
-                    }
-                  >
-                    {cell.isFlagged ? (
-                      <img
-                        src="flag.png"
-                        width={squareSize - 10}
-                        height={squareSize - 10}
-                        alt="flag"
-                      />
-                    ) : null}
+                  <td>
+                    <div
+                      style={{
+                        backgroundColor:
+                          (rowIndex + cellIndex) % 2 === 0
+                            ? "#aad751"
+                            : "#a2d149",
+                        width: squareSize,
+                        height: squareSize,
+                      }}
+                      key={`${rowIndex}${cellIndex}`}
+                      onClick={() => handleLeftClick(rowIndex, cellIndex)}
+                      onContextMenu={(e) =>
+                        handleRightClick(e, rowIndex, cellIndex)
+                      }
+                    >
+                      {cell.isFlagged ? (
+                        <img
+                          src="flag.png"
+                          width={squareSize - 10}
+                          height={squareSize - 10}
+                          alt="flag"
+                        />
+                      ) : null}
+                    </div>
                   </td>
                 ) : (
-                  <td
-                    key={`${rowIndex}${cellIndex}`}
-                    onContextMenu={(e) => e.preventDefault()}
-                    style={{
-                      backgroundColor:
-                        (rowIndex + cellIndex) % 2 === 0
-                          ? "#e5c29f"
-                          : "#d7b899",
-                      width: squareSize,
-                      height: squareSize,
-                      color: Colors["c" + `${cell.minesNearby}`],
-                      fontSize:
-                        gameMode === "easy"
-                          ? 30
-                          : gameMode === "medium"
-                            ? 22
-                            : 18,
-                      transition: "background-color 1.5s fade-in",
-                    }}
-                  >
-                    {cell.isMine ? (
-                      <img
-                        src="mine.png"
-                        width={squareSize - 10}
-                        height={squareSize - 10}
-                        alt="mine"
-                      />
-                    ) : cell.minesNearby ? (
-                      cell.minesNearby
-                    ) : null}
+                  <td>
+                    <div
+                      key={`${rowIndex}${cellIndex}`}
+                      onContextMenu={(e) => e.preventDefault()}
+                      style={{
+                        backgroundColor:
+                          (rowIndex + cellIndex) % 2 === 0
+                            ? "#e5c29f"
+                            : "#d7b899",
+                        width: squareSize,
+                        height: squareSize,
+                        color: Colors["c" + `${cell.minesNearby}`],
+                        fontSize:
+                          gameMode === "easy"
+                            ? 30
+                            : gameMode === "medium"
+                              ? 22
+                              : 18,
+                        transition: "background-color 1.5s fade-in",
+                      }}
+                    >
+                      {cell.isMine ? (
+                        <img
+                          src="mine.png"
+                          width={squareSize - 10}
+                          height={squareSize - 10}
+                          alt="mine"
+                        />
+                      ) : cell.minesNearby ? (
+                        <>{cell.minesNearby}</>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
                   </td>
                 ),
               )}
