@@ -2,7 +2,6 @@ const Header = ({
   flags,
   gameMode,
   changeGameMode,
-  squareSize,
 }: {
   flags: number;
   gameMode: string;
