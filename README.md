@@ -1,30 +1,33 @@
-# React + TypeScript + Vite
+# Minesweeper Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## A classic Minesweeper game implementation using React and TypeScript.
 
-Currently, two official plugins are available:
+# Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Three difficulty levels: Easy, Medium, and Hard
 
-## Expanding the ESLint configuration
+- Custom mine generation algorithm
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Efficient neighboring tile clearing
 
-- Configure the top-level `parserOptions` property like this:
+# Technologies Used
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- React
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- TypeScript
+
+- CSS for styling
+
+# How to Play
+
+- Left-click to reveal a tile
+- Right-click to place (or remove) a flag
+- Clear all non-mine tiles to win
+- Be careful not to click on a mine!
+
+# Installation and Running
+
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Use `npm run dev` to run the game locally
+4. Open `http://localhost:3000` in your browser
