@@ -4,29 +4,23 @@ import Board from "./components/Board";
 import ScoreModal from "./components/ScoreModal";
 import Header from "./components/Header";
 import { insertNumbers } from "./components/utils/utils";
-import { Game } from "./components/utils/types";
+import { Game, GameModes } from "./components/utils/types";
 import { Button } from "react-bootstrap";
 
-enum GameMode {
-  Easy = "easy",
-  Medium = "medium",
-  Hard = "hard",
-}
-
 const gameSettings = {
-  easy: {
+  Easy: {
     columns: 10,
     rows: 8,
     squareSize: 45,
     mines: 10,
   },
-  medium: {
+  Medium: {
     columns: 18,
     rows: 14,
     squareSize: 30,
     mines: 40,
   },
-  hard: {
+  Hard: {
     columns: 24,
     rows: 20,
     squareSize: 25,
@@ -41,12 +35,12 @@ enum GameState {
 
 function App() {
   const [game, setGame] = useState<Game>(GameState.On);
-  const [gameMode, setGameMode] = useState(GameMode.Medium);
+  const [gameMode, setGameMode] = useState<keyof typeof GameModes>("Medium");
   const [board, setBoard] = useState(() =>
     insertNumbers(gameSettings[gameMode]),
   );
-  const [mines, setMines] = useState(gameSettings[GameMode.Medium].mines);
-  const [flags, setFlags] = useState(gameSettings[GameMode.Medium].mines);
+  const [mines, setMines] = useState(gameSettings["Medium"].mines);
+  const [flags, setFlags] = useState(gameSettings["Medium"].mines);
   const [showScore, setShowScore] = useState(false);
 
   const hiddenCells = useMemo(() => {
@@ -74,12 +68,12 @@ function App() {
     setGame("on");
   };
 
-  const changeGameMode = (gameMode: string) => {
-    setGameMode(GameState.On);
-    setGameMode(GameMode[gameMode] as any);
-    setBoard(() => insertNumbers(gameSettings[gameMode.toLowerCase()]));
-    setMines(gameSettings[gameMode.toLowerCase()].mines);
-    setFlags(gameSettings[gameMode.toLowerCase()].mines);
+  const changeGameMode = (gameMode: keyof typeof GameModes) => {
+    setGame("on");
+    setGameMode(gameMode);
+    setBoard(() => insertNumbers(gameSettings[gameMode]));
+    setMines(gameSettings[gameMode].mines);
+    setFlags(gameSettings[gameMode].mines);
   };
 
   return (

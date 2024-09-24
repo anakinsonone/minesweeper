@@ -76,6 +76,10 @@ const Board = ({
     setBoard(newBoard);
   };
 
+  const getColor = (id: number): Colors => {
+    return Colors[("c" + `${id}`) as keyof typeof Colors];
+  };
+
   return (
     <>
       <table cellPadding={0} cellSpacing={0}>
@@ -95,9 +99,12 @@ const Board = ({
                         height: squareSize,
                       }}
                       onClick={() => handleLeftClick(rowIndex, cellIndex)}
-                      onContextMenu={(e) =>
-                        handleRightClick(e, rowIndex, cellIndex)
-                      }
+                      onContextMenu={(
+                        e: React.MouseEvent<
+                          HTMLTableDataCellElement,
+                          MouseEvent
+                        >,
+                      ) => handleRightClick(e, rowIndex, cellIndex)}
                     >
                       {cell.isFlagged ? (
                         <div className="image-container">
@@ -122,7 +129,7 @@ const Board = ({
                             : "#d7b899",
                         width: squareSize,
                         height: squareSize,
-                        color: Colors["c" + `${cell.minesNearby}`],
+                        color: getColor(cell.minesNearby),
                         fontSize:
                           gameMode === "easy"
                             ? 30

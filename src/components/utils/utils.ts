@@ -5,6 +5,7 @@ const myCell: Cell = {
   minesNearby: 0,
   isHidden: true,
   isFlagged: false,
+  squareSize: 30,
 };
 
 const generateCoordinates = (rows: number, columns: number): number[] => {

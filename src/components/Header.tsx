@@ -1,3 +1,5 @@
+import { GameModes } from "./utils/types";
+
 const Header = ({
   flags,
   gameMode,
@@ -5,7 +7,7 @@ const Header = ({
 }: {
   flags: number;
   gameMode: string;
-  changeGameMode: (gameMode: string) => void;
+  changeGameMode: (gameMode: keyof typeof GameModes) => void;
 }) => {
   return (
     <div className="header">
@@ -13,7 +15,9 @@ const Header = ({
         defaultValue={
           gameMode[0].toUpperCase() + gameMode.slice(1, gameMode.length)
         }
-        onChange={(e) => changeGameMode(e.target.value)}
+        onChange={(e) =>
+          changeGameMode(e.target.value as keyof typeof GameModes)
+        }
       >
         <option value={"Easy"}>Easy</option>
         <option value={"Medium"}>Medium</option>
