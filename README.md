@@ -1,6 +1,6 @@
 # Minesweeper Game
 
-## A classic Minesweeper game implementation using React and TypeScript.
+A classic Minesweeper game implementation using React and TypeScript.
 
 # Features
 
